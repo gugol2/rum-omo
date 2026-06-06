@@ -1,0 +1,29 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - heading "rum-omo" [level=1] [ref=e5]
+    - paragraph [ref=e6]: Real User Monitoring — Core Web Vitals collected live from this tab
+  - generic [ref=e7]:
+    - heading "Triggers" [level=2] [ref=e8]
+    - generic [ref=e9]:
+      - button "Slow INP (300ms block)" [ref=e10] [cursor=pointer]
+      - button "Trigger CLS (layout shift)" [ref=e11] [cursor=pointer]
+    - paragraph [ref=e12]: LCP, FCP, and TTFB fire automatically on load. INP fires after you interact with the page.
+  - generic [ref=e13]:
+    - heading "Collected metrics1 event" [level=2] [ref=e14]:
+      - text: Collected metrics
+      - generic [ref=e15]: 1 event
+    - table [ref=e16]:
+      - rowgroup [ref=e17]:
+        - row "Metric Value Rating Delta Good threshold" [ref=e18]:
+          - columnheader "Metric" [ref=e19]
+          - columnheader "Value" [ref=e20]
+          - columnheader "Rating" [ref=e21]
+          - columnheader "Delta" [ref=e22]
+          - columnheader "Good threshold" [ref=e23]
+      - rowgroup [ref=e24]:
+        - row "TTFB 9ms good 9ms ≤ 800ms" [ref=e25]:
+          - cell "TTFB" [ref=e26]
+          - cell "9ms" [ref=e27]
+          - cell "good" [ref=e28]
+          - cell "9ms" [ref=e29]
+          - cell "≤ 800ms" [ref=e30]
