@@ -1,6 +1,7 @@
 import type { RUMMetric } from '@rum-omo/core';
 import { useRUM } from '@rum-omo/react';
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 
 const RATING_COLOR: Record<string, string> = {
   good: '#0cce6b',
@@ -46,23 +47,59 @@ export default function App() {
   }
 
   return (
-    <div style={{ fontFamily: 'system-ui, sans-serif', maxWidth: 820, margin: '0 auto', padding: '0 1.5rem 4rem' }}>
-
+    <div
+      style={{
+        fontFamily: 'system-ui, sans-serif',
+        maxWidth: 820,
+        margin: '0 auto',
+        padding: '0 1.5rem 4rem',
+      }}
+    >
       {clsBanner && (
-        <div style={{ background: '#fef3c7', border: '1px solid #fbbf24', borderRadius: 6, padding: '10px 16px', marginTop: '1rem', fontSize: '0.875rem' }}>
+        <div
+          style={{
+            background: '#fef3c7',
+            border: '1px solid #fbbf24',
+            borderRadius: 6,
+            padding: '10px 16px',
+            marginTop: '1rem',
+            fontSize: '0.875rem',
+          }}
+        >
           Layout shift injected — watch the CLS metric update
         </div>
       )}
 
       <header style={{ padding: '3.5rem 0 2rem' }}>
-        <h1 style={{ fontSize: '2.75rem', fontWeight: 700, margin: 0, letterSpacing: '-0.02em' }}>
+        <h1
+          style={{
+            fontSize: '2.75rem',
+            fontWeight: 700,
+            margin: 0,
+            letterSpacing: '-0.02em',
+          }}
+        >
           rum-omo
         </h1>
-        <p style={{ color: '#64748b', marginTop: '0.5rem', fontSize: '1.05rem' }}>
+        <p
+          style={{ color: '#64748b', marginTop: '0.5rem', fontSize: '1.05rem' }}
+        >
           Real User Monitoring — Core Web Vitals collected live from this tab
         </p>
-        <p style={{ fontSize: '0.85rem', color: '#94a3b8', marginTop: '0.75rem' }}>
-          → <a href="/vanilla.html" style={{ color: '#6366f1', textDecoration: 'none' }}>See the vanilla (no framework) version</a>
+        <p
+          style={{
+            fontSize: '0.85rem',
+            color: '#94a3b8',
+            marginTop: '0.75rem',
+          }}
+        >
+          →{' '}
+          <a
+            href="/vanilla.html"
+            style={{ color: '#6366f1', textDecoration: 'none' }}
+          >
+            See the vanilla (no framework) version
+          </a>
         </p>
       </header>
 
@@ -70,14 +107,23 @@ export default function App() {
         <h2 style={sectionHeading}>Triggers</h2>
         <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
           <button onClick={triggerSlowINP} style={btn}>
-            Slow INP <span style={{ color: '#94a3b8', fontWeight: 400 }}>(300ms block)</span>
+            Slow INP{' '}
+            <span style={{ color: '#94a3b8', fontWeight: 400 }}>
+              (300ms block)
+            </span>
           </button>
           <button onClick={triggerCLS} style={btn}>
-            Trigger CLS <span style={{ color: '#94a3b8', fontWeight: 400 }}>(layout shift)</span>
+            Trigger CLS{' '}
+            <span style={{ color: '#94a3b8', fontWeight: 400 }}>
+              (layout shift)
+            </span>
           </button>
         </div>
-        <p style={{ color: '#94a3b8', fontSize: '0.8rem', marginTop: '0.75rem' }}>
-          LCP, FCP, and TTFB fire automatically on load. INP fires after you interact with the page.
+        <p
+          style={{ color: '#94a3b8', fontSize: '0.8rem', marginTop: '0.75rem' }}
+        >
+          LCP, FCP, and TTFB fire automatically on load. INP fires after you
+          interact with the page.
         </p>
       </section>
 
@@ -85,23 +131,50 @@ export default function App() {
         <h2 style={sectionHeading}>
           Collected metrics
           {metrics.length > 0 && (
-            <span style={{ marginLeft: '0.5rem', fontSize: '0.8rem', fontWeight: 400, color: '#94a3b8' }}>
+            <span
+              style={{
+                marginLeft: '0.5rem',
+                fontSize: '0.8rem',
+                fontWeight: 400,
+                color: '#94a3b8',
+              }}
+            >
               {metrics.length} event{metrics.length !== 1 ? 's' : ''}
             </span>
           )}
         </h2>
 
         {metrics.length === 0 ? (
-          <div style={{ color: '#94a3b8', padding: '2rem 0', fontSize: '0.9rem' }}>
+          <div
+            style={{ color: '#94a3b8', padding: '2rem 0', fontSize: '0.9rem' }}
+          >
             Waiting for metrics… interact with the page or just wait a moment.
           </div>
         ) : (
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
+          <table
+            style={{
+              width: '100%',
+              borderCollapse: 'collapse',
+              fontSize: '0.875rem',
+            }}
+          >
             <thead>
               <tr style={{ borderBottom: '2px solid #e2e8f0' }}>
-                {['Metric', 'Value', 'Rating', 'Delta', 'Good threshold'].map((h) => (
-                  <th key={h} style={{ textAlign: 'left', padding: '8px 12px', color: '#64748b', fontWeight: 500 }}>{h}</th>
-                ))}
+                {['Metric', 'Value', 'Rating', 'Delta', 'Good threshold'].map(
+                  (h) => (
+                    <th
+                      key={h}
+                      style={{
+                        textAlign: 'left',
+                        padding: '8px 12px',
+                        color: '#64748b',
+                        fontWeight: 500,
+                      }}
+                    >
+                      {h}
+                    </th>
+                  ),
+                )}
               </tr>
             </thead>
             <tbody>
@@ -125,22 +198,32 @@ function MetricRow({ metric: m }: { metric: RUMMetric }) {
         {formatValue(m.name, m.value)}
       </td>
       <td style={{ padding: '11px 12px' }}>
-        <span style={{
-          color,
-          background: color + '22',
-          padding: '2px 10px',
-          borderRadius: 999,
-          fontSize: '0.78rem',
-          fontWeight: 600,
-          letterSpacing: '0.01em',
-        }}>
+        <span
+          style={{
+            color,
+            background: color + '22',
+            padding: '2px 10px',
+            borderRadius: 999,
+            fontSize: '0.78rem',
+            fontWeight: 600,
+            letterSpacing: '0.01em',
+          }}
+        >
           {m.rating}
         </span>
       </td>
-      <td style={{ padding: '11px 12px', fontFamily: 'monospace', color: '#94a3b8' }}>
+      <td
+        style={{
+          padding: '11px 12px',
+          fontFamily: 'monospace',
+          color: '#94a3b8',
+        }}
+      >
         {formatValue(m.name, m.delta)}
       </td>
-      <td style={{ padding: '11px 12px', color: '#cbd5e1', fontSize: '0.8rem' }}>
+      <td
+        style={{ padding: '11px 12px', color: '#cbd5e1', fontSize: '0.8rem' }}
+      >
         {THRESHOLDS[m.name]}
       </td>
     </tr>

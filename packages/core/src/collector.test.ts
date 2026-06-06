@@ -6,11 +6,21 @@ type WebVitalsCb = (metric: any) => void;
 const handlers: Record<string, WebVitalsCb> = {};
 
 vi.mock('web-vitals', () => ({
-  onLCP: vi.fn((cb: WebVitalsCb) => { handlers['LCP'] = cb; }),
-  onINP: vi.fn((cb: WebVitalsCb) => { handlers['INP'] = cb; }),
-  onCLS: vi.fn((cb: WebVitalsCb) => { handlers['CLS'] = cb; }),
-  onFCP: vi.fn((cb: WebVitalsCb) => { handlers['FCP'] = cb; }),
-  onTTFB: vi.fn((cb: WebVitalsCb) => { handlers['TTFB'] = cb; }),
+  onLCP: vi.fn((cb: WebVitalsCb) => {
+    handlers['LCP'] = cb;
+  }),
+  onINP: vi.fn((cb: WebVitalsCb) => {
+    handlers['INP'] = cb;
+  }),
+  onCLS: vi.fn((cb: WebVitalsCb) => {
+    handlers['CLS'] = cb;
+  }),
+  onFCP: vi.fn((cb: WebVitalsCb) => {
+    handlers['FCP'] = cb;
+  }),
+  onTTFB: vi.fn((cb: WebVitalsCb) => {
+    handlers['TTFB'] = cb;
+  }),
 }));
 
 function makeRawMetric(name: string, overrides?: Partial<RUMMetric>) {
@@ -32,7 +42,9 @@ describe('startCollecting', () => {
 
   it('registers handlers for all five metrics', () => {
     const stop = startCollecting([]);
-    expect(Object.keys(handlers)).toEqual(expect.arrayContaining(['LCP', 'INP', 'CLS', 'FCP', 'TTFB']));
+    expect(Object.keys(handlers)).toEqual(
+      expect.arrayContaining(['LCP', 'INP', 'CLS', 'FCP', 'TTFB']),
+    );
     stop();
   });
 
@@ -90,6 +102,9 @@ describe('startCollecting', () => {
 
   it('stop() is idempotent', () => {
     const stop = startCollecting([]);
-    expect(() => { stop(); stop(); }).not.toThrow();
+    expect(() => {
+      stop();
+      stop();
+    }).not.toThrow();
   });
 });

@@ -1,5 +1,5 @@
-import { createRUM, localStoragePlugin } from '@rum-omo/core';
 import type { RUMMetric } from '@rum-omo/core';
+import { createRUM, localStoragePlugin } from '@rum-omo/core';
 
 const RATING_COLOR: Record<string, string> = {
   good: '#0cce6b',
@@ -21,7 +21,9 @@ function formatValue(name: string, value: number): string {
 
 // ─── DOM refs ────────────────────────────────────────────────────────────────
 
-const tbody = document.getElementById('metrics-body') as HTMLTableSectionElement;
+const tbody = document.getElementById(
+  'metrics-body',
+) as HTMLTableSectionElement;
 const countEl = document.getElementById('event-count') as HTMLSpanElement;
 const emptyEl = document.getElementById('empty-state') as HTMLParagraphElement;
 const tableEl = document.getElementById('metrics-table') as HTMLTableElement;
@@ -90,7 +92,9 @@ document.getElementById('btn-cls')!.addEventListener('click', () => {
   const banner = document.getElementById('cls-banner')!;
   banner.style.display = 'block';
   if (clsTimeout) clearTimeout(clsTimeout);
-  clsTimeout = setTimeout(() => { banner.style.display = 'none'; }, 2500);
+  clsTimeout = setTimeout(() => {
+    banner.style.display = 'none';
+  }, 2500);
 });
 
 // initial render

@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { localStoragePlugin } from './localStorage';
 import type { RUMMetric } from '../types';
+import { localStoragePlugin } from './localStorage';
 
 function makeMetric(name = 'LCP', value = 1000): RUMMetric {
   return {
@@ -52,7 +52,9 @@ describe('localStoragePlugin', () => {
     const plugin = localStoragePlugin({ maxEntries: 3 });
     for (let i = 1; i <= 5; i++) plugin(makeMetric('FCP', i * 100));
 
-    const stored: RUMMetric[] = JSON.parse(localStorage.getItem('rum_metrics')!);
+    const stored: RUMMetric[] = JSON.parse(
+      localStorage.getItem('rum_metrics')!,
+    );
     expect(stored).toHaveLength(3);
     expect(stored.map((m) => m.value)).toEqual([300, 400, 500]);
   });

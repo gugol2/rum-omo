@@ -1,7 +1,7 @@
 import type { LocalStoragePluginOptions, RUMMetric, RUMPlugin } from '../types';
 
 export function localStoragePlugin({
-  key = "rum_metrics",
+  key = 'rum_metrics',
   maxEntries = 100,
 }: LocalStoragePluginOptions = {}): RUMPlugin {
   return (metric) => {
@@ -13,7 +13,7 @@ export function localStoragePlugin({
     } catch {
       // localStorage may be unavailable (private mode, quota exceeded)
       console.warn(
-        "localStoragePlugin: unable to store metric in localStorage",
+        'localStoragePlugin: unable to store metric in localStorage',
       );
     }
   };

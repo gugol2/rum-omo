@@ -8,7 +8,8 @@ export function createRUM(config: RUMConfig = {}): RUMInstance {
   let stopFn: (() => void) | null = null;
 
   const builtins: RUMPlugin[] = [];
-  if (config.endpoint) builtins.push(beaconPlugin({ endpoint: config.endpoint }));
+  if (config.endpoint)
+    builtins.push(beaconPlugin({ endpoint: config.endpoint }));
   if (config.debug) builtins.push(consolePlugin());
 
   const internalCollect: RUMPlugin = (metric) => {

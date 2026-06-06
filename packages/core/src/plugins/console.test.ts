@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { consolePlugin } from './console';
 import type { RUMMetric } from '../types';
+import { consolePlugin } from './console';
 
 function makeMetric(overrides?: Partial<RUMMetric>): RUMMetric {
   return {
@@ -51,9 +51,18 @@ describe('consolePlugin', () => {
 
   it('logs value, delta, id, and navigationType', () => {
     const plugin = consolePlugin();
-    plugin(makeMetric({ value: 1234, delta: 100, id: 'v3-x', navigationType: 'reload' }));
+    plugin(
+      makeMetric({
+        value: 1234,
+        delta: 100,
+        id: 'v3-x',
+        navigationType: 'reload',
+      }),
+    );
 
-    const logCalls = (console.log as ReturnType<typeof vi.fn>).mock.calls.map((c) => c[1]);
+    const logCalls = (console.log as ReturnType<typeof vi.fn>).mock.calls.map(
+      (c) => c[1],
+    );
     expect(logCalls).toContain(1234);
     expect(logCalls).toContain(100);
     expect(logCalls).toContain('v3-x');
@@ -63,21 +72,24 @@ describe('consolePlugin', () => {
   it('uses the correct colour for each rating', () => {
     const greenPlugin = consolePlugin();
     greenPlugin(makeMetric({ rating: 'good' }));
-    const goodStyle: string = (console.group as ReturnType<typeof vi.fn>).mock.calls[0][1];
+    const goodStyle: string = (console.group as ReturnType<typeof vi.fn>).mock
+      .calls[0][1];
     expect(goodStyle).toContain('#0cce6b');
 
     vi.clearAllMocks();
 
     const orangePlugin = consolePlugin();
     orangePlugin(makeMetric({ rating: 'needs-improvement' }));
-    const needsStyle: string = (console.group as ReturnType<typeof vi.fn>).mock.calls[0][1];
+    const needsStyle: string = (console.group as ReturnType<typeof vi.fn>).mock
+      .calls[0][1];
     expect(needsStyle).toContain('#ffa400');
 
     vi.clearAllMocks();
 
     const redPlugin = consolePlugin();
     redPlugin(makeMetric({ rating: 'poor' }));
-    const poorStyle: string = (console.group as ReturnType<typeof vi.fn>).mock.calls[0][1];
+    const poorStyle: string = (console.group as ReturnType<typeof vi.fn>).mock
+      .calls[0][1];
     expect(poorStyle).toContain('#ff4e42');
   });
 });

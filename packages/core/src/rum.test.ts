@@ -6,11 +6,21 @@ type WebVitalsCb = (metric: any) => void;
 const handlers: Record<string, WebVitalsCb> = {};
 
 vi.mock('web-vitals', () => ({
-  onLCP: vi.fn((cb: WebVitalsCb) => { handlers['LCP'] = cb; }),
-  onINP: vi.fn((cb: WebVitalsCb) => { handlers['INP'] = cb; }),
-  onCLS: vi.fn((cb: WebVitalsCb) => { handlers['CLS'] = cb; }),
-  onFCP: vi.fn((cb: WebVitalsCb) => { handlers['FCP'] = cb; }),
-  onTTFB: vi.fn((cb: WebVitalsCb) => { handlers['TTFB'] = cb; }),
+  onLCP: vi.fn((cb: WebVitalsCb) => {
+    handlers['LCP'] = cb;
+  }),
+  onINP: vi.fn((cb: WebVitalsCb) => {
+    handlers['INP'] = cb;
+  }),
+  onCLS: vi.fn((cb: WebVitalsCb) => {
+    handlers['CLS'] = cb;
+  }),
+  onFCP: vi.fn((cb: WebVitalsCb) => {
+    handlers['FCP'] = cb;
+  }),
+  onTTFB: vi.fn((cb: WebVitalsCb) => {
+    handlers['TTFB'] = cb;
+  }),
 }));
 
 // Mock navigator.sendBeacon so beaconPlugin doesn't throw

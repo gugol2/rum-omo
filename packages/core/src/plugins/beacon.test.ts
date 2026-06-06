@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { beaconPlugin } from './beacon';
 import type { RUMMetric } from '../types';
+import { beaconPlugin } from './beacon';
 
 function makeMetric(overrides?: Partial<RUMMetric>): RUMMetric {
   return {
@@ -34,7 +34,10 @@ describe('beaconPlugin', () => {
   it('sends a Blob with application/json content type and correct payload', async () => {
     let capturedBlob: Blob | undefined;
     vi.stubGlobal('navigator', {
-      sendBeacon: vi.fn((_, blob: Blob) => { capturedBlob = blob; return true; }),
+      sendBeacon: vi.fn((_, blob: Blob) => {
+        capturedBlob = blob;
+        return true;
+      }),
     });
 
     const plugin = beaconPlugin({ endpoint: '/api/vitals' });
@@ -63,16 +66,22 @@ describe('beaconPlugin', () => {
     plugin(makeMetric());
 
     expect(fetchSpy).toHaveBeenCalledOnce();
-    expect(fetchSpy).toHaveBeenCalledWith('/api/vitals', expect.objectContaining({
-      method: 'POST',
-      keepalive: true,
-      headers: { 'Content-Type': 'application/json' },
-    }));
+    expect(fetchSpy).toHaveBeenCalledWith(
+      '/api/vitals',
+      expect.objectContaining({
+        method: 'POST',
+        keepalive: true,
+        headers: { 'Content-Type': 'application/json' },
+      }),
+    );
   });
 
   it('fetch fallback does not throw if the request fails', () => {
     vi.stubGlobal('navigator', {});
-    vi.stubGlobal('fetch', vi.fn(() => Promise.reject(new Error('network error'))));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() => Promise.reject(new Error('network error'))),
+    );
 
     const plugin = beaconPlugin({ endpoint: '/api/vitals' });
     expect(() => plugin(makeMetric())).not.toThrow();

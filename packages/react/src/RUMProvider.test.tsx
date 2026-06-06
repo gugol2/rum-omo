@@ -1,8 +1,8 @@
+import type { RUMConfig, RUMMetric, RUMPlugin } from '@rum-omo/core';
+import { createRUM as createRUMActual } from '@rum-omo/core';
 import { act, cleanup, render, screen } from '@testing-library/react';
 import React from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { createRUM as createRUMActual } from '@rum-omo/core';
-import type { RUMConfig, RUMMetric, RUMPlugin } from '@rum-omo/core';
 import { RUMProvider, useRUM } from './RUMProvider';
 
 const mockStart = vi.fn();
@@ -33,7 +33,9 @@ function Consumer() {
   return (
     <ul>
       {metrics.map((m) => (
-        <li key={m.id} data-testid="metric">{m.name}</li>
+        <li key={m.id} data-testid="metric">
+          {m.name}
+        </li>
       ))}
     </ul>
   );
@@ -51,12 +53,20 @@ describe('RUMProvider', () => {
   });
 
   it('calls start() on mount', () => {
-    render(<RUMProvider config={{}}><span /></RUMProvider>);
+    render(
+      <RUMProvider config={{}}>
+        <span />
+      </RUMProvider>,
+    );
     expect(mockStart).toHaveBeenCalledOnce();
   });
 
   it('calls stop() on unmount', () => {
-    const { unmount } = render(<RUMProvider config={{}}><span /></RUMProvider>);
+    const { unmount } = render(
+      <RUMProvider config={{}}>
+        <span />
+      </RUMProvider>,
+    );
     unmount();
     expect(mockStop).toHaveBeenCalledOnce();
   });
@@ -67,13 +77,21 @@ describe('RUMProvider', () => {
         <span />
       </RUMProvider>,
     );
-    rerender(<RUMProvider config={{ debug: true }}><span /></RUMProvider>);
+    rerender(
+      <RUMProvider config={{ debug: true }}>
+        <span />
+      </RUMProvider>,
+    );
     expect(mockStart).toHaveBeenCalledOnce();
   });
 
   it('passes config options to createRUM', () => {
     const createRUM = vi.mocked(createRUMActual);
-    render(<RUMProvider config={{ endpoint: '/api/vitals', debug: true }}><span /></RUMProvider>);
+    render(
+      <RUMProvider config={{ endpoint: '/api/vitals', debug: true }}>
+        <span />
+      </RUMProvider>,
+    );
     expect(createRUM).toHaveBeenCalledWith(
       expect.objectContaining({ endpoint: '/api/vitals', debug: true }),
     );
@@ -110,9 +128,15 @@ describe('RUMProvider', () => {
       </RUMProvider>,
     );
 
-    act(() => { capturedPlugins.forEach((p) => p(makeMetric('LCP'))); });
-    act(() => { capturedPlugins.forEach((p) => p(makeMetric('CLS'))); });
-    act(() => { capturedPlugins.forEach((p) => p(makeMetric('INP'))); });
+    act(() => {
+      capturedPlugins.forEach((p) => p(makeMetric('LCP')));
+    });
+    act(() => {
+      capturedPlugins.forEach((p) => p(makeMetric('CLS')));
+    });
+    act(() => {
+      capturedPlugins.forEach((p) => p(makeMetric('INP')));
+    });
 
     const items = screen.getAllByTestId('metric');
     expect(items).toHaveLength(3);
