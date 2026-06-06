@@ -1,4 +1,4 @@
-import type { RUMMetric, RUMPlugin } from '../types';
+import type { RUMMetric, RUMPlugin } from "../types";
 
 interface LocalStoragePluginOptions {
   key?: string;
@@ -6,7 +6,7 @@ interface LocalStoragePluginOptions {
 }
 
 export function localStoragePlugin({
-  key = 'rum_metrics',
+  key = "rum_metrics",
   maxEntries = 100,
 }: LocalStoragePluginOptions = {}): RUMPlugin {
   return (metric) => {
@@ -17,6 +17,9 @@ export function localStoragePlugin({
       localStorage.setItem(key, JSON.stringify(entries.slice(-maxEntries)));
     } catch {
       // localStorage may be unavailable (private mode, quota exceeded)
+      console.warn(
+        "localStoragePlugin: unable to store metric in localStorage",
+      );
     }
   };
 }
