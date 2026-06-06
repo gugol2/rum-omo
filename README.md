@@ -133,6 +133,80 @@ const rum = createRUM({
 });
 ```
 
+## Backend: Supabase
+
+A ready-to-deploy Supabase Edge Function is included in `supabase/` for storing metrics in Postgres.
+
+### Setup
+
+**1. Create the table** — run this in the Supabase SQL Editor:
+
+```sql
+-- supabase/migrations/20260606000000_create_rum_metrics.sql
+create table if not exists rum_metrics (
+  id              bigserial primary key,
+  metric_id       text not null,
+  name            text not null check (name in ('LCP', 'INP', 'CLS', 'FCP', 'TTFB')),
+  value           double precision not null,
+  rating          text not null check (rating in ('good', 'needs-improvement', 'poor')),
+  delta           double precision not null,
+  navigation_type text,
+  timestamp       bigint not null,
+  created_at      timestamptz not null default now()
+);
+
+alter table rum_metrics enable row level security;
+```
+
+**2. Deploy the Edge Function:**
+
+```bash
+npm install -g supabase
+supabase login
+supabase link --project-ref <your-project-ref>
+supabase functions deploy vitals --no-verify-jwt
+```
+
+The `--no-verify-jwt` flag is required — the endpoint is public by design (browsers POST to it without authentication).
+
+**3. Point `beaconPlugin` at your function:**
+
+```ts
+const rum = createRUM({
+  endpoint: 'https://<your-project-ref>.supabase.co/functions/v1/vitals',
+});
+rum.start();
+```
+
+Use an environment variable to keep the URL out of source control:
+
+```bash
+# .env (add to .gitignore)
+VITE_VITALS_ENDPOINT=https://<your-project-ref>.supabase.co/functions/v1/vitals
+```
+
+```ts
+const rum = createRUM({ endpoint: import.meta.env.VITE_VITALS_ENDPOINT });
+```
+
+### Querying
+
+Once data is flowing, query it from the Supabase SQL Editor or connect Grafana via the Postgres connection string (project Settings → Database):
+
+```sql
+-- ratings breakdown per metric
+select name, rating, count(*), round(avg(value)::numeric, 0) as avg_ms
+from rum_metrics
+group by name, rating
+order by name, rating;
+
+-- p75 LCP over the last 7 days
+select percentile_cont(0.75) within group (order by value) as p75_lcp
+from rum_metrics
+where name = 'LCP'
+  and created_at > now() - interval '7 days';
+```
+
 ## Core Web Vitals thresholds
 
 | Metric | Good     | Needs improvement | Poor     |
