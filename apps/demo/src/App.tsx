@@ -61,6 +61,9 @@ export default function App() {
         <p style={{ color: '#64748b', marginTop: '0.5rem', fontSize: '1.05rem' }}>
           Real User Monitoring — Core Web Vitals collected live from this tab
         </p>
+        <p style={{ fontSize: '0.85rem', color: '#94a3b8', marginTop: '0.75rem' }}>
+          → <a href="/vanilla.html" style={{ color: '#6366f1', textDecoration: 'none' }}>See the vanilla (no framework) version</a>
+        </p>
       </header>
 
       <section style={{ marginBottom: '2.5rem' }}>
