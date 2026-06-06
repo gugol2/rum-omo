@@ -1,8 +1,4 @@
-import type { RUMPlugin } from '../types';
-
-interface ConsolePluginOptions {
-  collapsed?: boolean;
-}
+import type { ConsolePluginOptions, RUMPlugin } from '../types';
 
 const RATING_COLOR: Record<string, string> = {
   good: '#0cce6b',

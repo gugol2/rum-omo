@@ -1,8 +1,4 @@
-import type { RUMPlugin } from '../types';
-
-interface BeaconPluginOptions {
-  endpoint: string;
-}
+import type { BeaconPluginOptions, RUMPlugin } from '../types';
 
 export function beaconPlugin({ endpoint }: BeaconPluginOptions): RUMPlugin {
   return (metric) => {

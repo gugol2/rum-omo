@@ -1,3 +1,3 @@
 export { createRUM } from './rum';
 export { beaconPlugin, consolePlugin, localStoragePlugin } from './plugins';
-export type { RUMConfig, RUMInstance, RUMMetric, RUMPlugin, MetricName, MetricRating } from './types';
+export type { BeaconPluginOptions, ConsolePluginOptions, LocalStoragePluginOptions, MetricName, MetricRating, RUMConfig, RUMInstance, RUMMetric, RUMPlugin } from './types';

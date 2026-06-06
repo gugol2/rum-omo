@@ -1,9 +1,4 @@
-import type { RUMMetric, RUMPlugin } from "../types";
-
-interface LocalStoragePluginOptions {
-  key?: string;
-  maxEntries?: number;
-}
+import type { LocalStoragePluginOptions, RUMMetric, RUMPlugin } from '../types';
 
 export function localStoragePlugin({
   key = "rum_metrics",

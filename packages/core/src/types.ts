@@ -24,3 +24,16 @@ export interface RUMInstance {
   stop: () => void;
   getMetrics: () => RUMMetric[];
 }
+
+export interface BeaconPluginOptions {
+  endpoint: string;
+}
+
+export interface ConsolePluginOptions {
+  collapsed?: boolean;
+}
+
+export interface LocalStoragePluginOptions {
+  key?: string;
+  maxEntries?: number;
+}
