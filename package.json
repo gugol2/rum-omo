@@ -4,6 +4,7 @@
   "scripts": {
     "build": "pnpm -r build",
     "dev": "pnpm -r dev",
+    "dev:demo": "pnpm --filter @rum-omo/demo dev",
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test"
   },
