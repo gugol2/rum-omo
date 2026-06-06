@@ -3,7 +3,7 @@ import React from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createRUM as createRUMActual } from '@rum-omo/core';
 import type { RUMConfig, RUMMetric, RUMPlugin } from '@rum-omo/core';
-import { RUMProvider, useRUM } from '../RUMProvider';
+import { RUMProvider, useRUM } from './RUMProvider';
 
 const mockStart = vi.fn();
 const mockStop = vi.fn();

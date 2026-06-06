@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { localStoragePlugin } from '../../plugins/localStorage';
-import type { RUMMetric } from '../../types';
+import { localStoragePlugin } from './localStorage';
+import type { RUMMetric } from '../types';
 
 function makeMetric(name = 'LCP', value = 1000): RUMMetric {
   return {

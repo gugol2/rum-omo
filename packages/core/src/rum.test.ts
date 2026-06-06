@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { createRUM } from '../rum';
-import type { RUMMetric } from '../types';
+import { createRUM } from './rum';
+import type { RUMMetric } from './types';
 
 type WebVitalsCb = (metric: any) => void;
 const handlers: Record<string, WebVitalsCb> = {};

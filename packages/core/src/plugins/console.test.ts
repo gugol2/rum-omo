@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { consolePlugin } from '../../plugins/console';
-import type { RUMMetric } from '../../types';
+import { consolePlugin } from './console';
+import type { RUMMetric } from '../types';
 
 function makeMetric(overrides?: Partial<RUMMetric>): RUMMetric {
   return {

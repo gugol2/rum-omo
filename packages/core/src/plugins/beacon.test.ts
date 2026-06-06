@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { beaconPlugin } from '../../plugins/beacon';
-import type { RUMMetric } from '../../types';
+import { beaconPlugin } from './beacon';
+import type { RUMMetric } from '../types';
 
 function makeMetric(overrides?: Partial<RUMMetric>): RUMMetric {
   return {
