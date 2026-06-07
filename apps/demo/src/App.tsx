@@ -18,6 +18,8 @@ export default function App() {
   const metrics = dedup(allMetrics);
   const [clsBanner, setClsBanner] = useState(false);
 
+  const disabled = allMetrics.length >= 10;
+
   function triggerSlowINP() {
     // Block the main thread to produce a measurable INP
     const end = Date.now() + 300;
@@ -89,13 +91,23 @@ export default function App() {
       <section style={{ marginBottom: '2.5rem' }}>
         <h2 style={sectionHeading}>Triggers</h2>
         <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-          <button onClick={triggerSlowINP} style={btn}>
+          <button
+            onClick={triggerSlowINP}
+            style={disabled ? btnDisabled : btn}
+            disabled={disabled}
+            type="button"
+          >
             Slow INP{' '}
             <span style={{ color: '#94a3b8', fontWeight: 400 }}>
               (300ms block)
             </span>
           </button>
-          <button onClick={triggerCLS} style={btn}>
+          <button
+            onClick={triggerCLS}
+            style={disabled ? btnDisabled : btn}
+            disabled={disabled}
+            type="button"
+          >
             Trigger CLS{' '}
             <span style={{ color: '#94a3b8', fontWeight: 400 }}>
               (layout shift)
@@ -190,4 +202,10 @@ const btn: React.CSSProperties = {
   fontSize: '0.875rem',
   fontWeight: 500,
   boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
+};
+
+const btnDisabled: React.CSSProperties = {
+  ...btn,
+  cursor: 'not-allowed',
+  opacity: 0.5,
 };
