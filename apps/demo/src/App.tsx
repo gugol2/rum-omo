@@ -15,11 +15,11 @@ function dedup(metrics: RUMMetric[]): RUMMetric[] {
 
 const INP_TIME = 300; // ms to block on INP trigger (long enough to be noticeable, short enough to not be annoying with multiple clicks)
 let INPInteractionCount = 1;
+let _spin = 0;
 
 function triggerSlowINP() {
-  // Block the main thread to produce a measurable INP
   const end = Date.now() + INPInteractionCount * INP_TIME;
-  while (Date.now() < end) {}
+  while (Date.now() < end) _spin = (_spin + 1) | 0;
   INPInteractionCount++;
 }
 
@@ -103,6 +103,7 @@ export default function App() {
             onClick={triggerSlowINP}
             style={disabled ? btnDisabled : btn}
             disabled={disabled}
+            data-spin={_spin}
             type="button"
           >
             Slow INP{' '}
