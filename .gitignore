@@ -8,3 +8,4 @@ build/
 
 # SUPABASE
 .temp
+.claude
