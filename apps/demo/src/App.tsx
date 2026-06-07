@@ -13,6 +13,17 @@ function dedup(metrics: RUMMetric[]): RUMMetric[] {
   return Array.from(map.values());
 }
 
+let INPInteractionCount = 1;
+
+function triggerSlowINP() {
+  // Block the main thread to produce a measurable INP
+  const end = Date.now() + INPInteractionCount * 300;
+  while (Date.now() < end) {}
+  INPInteractionCount++;
+}
+
+let CLSInteractionCount = 1;
+
 export default function App() {
   const { metrics: allMetrics } = useRUM();
   const metrics = dedup(allMetrics);
@@ -20,15 +31,10 @@ export default function App() {
 
   const disabled = allMetrics.length >= 10;
 
-  function triggerSlowINP() {
-    // Block the main thread to produce a measurable INP
-    const end = Date.now() + 300;
-    while (Date.now() < end) {}
-  }
-
   function triggerCLS() {
     setClsBanner(true);
     setTimeout(() => setClsBanner(false), 2500);
+    CLSInteractionCount++;
   }
 
   return (
@@ -46,7 +52,7 @@ export default function App() {
             background: '#fef3c7',
             border: '1px solid #fbbf24',
             borderRadius: 6,
-            padding: '10px 16px',
+            padding: `${CLSInteractionCount * 12}px`,
             marginTop: '1rem',
             fontSize: '0.875rem',
           }}
