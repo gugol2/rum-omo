@@ -13,15 +13,17 @@ function dedup(metrics: RUMMetric[]): RUMMetric[] {
   return Array.from(map.values());
 }
 
+const INP_TIME = 300; // ms to block on INP trigger (long enough to be noticeable, short enough to not be annoying with multiple clicks)
 let INPInteractionCount = 1;
 
 function triggerSlowINP() {
   // Block the main thread to produce a measurable INP
-  const end = Date.now() + INPInteractionCount * 300;
+  const end = Date.now() + INPInteractionCount * INP_TIME;
   while (Date.now() < end) {}
   INPInteractionCount++;
 }
 
+const CLS_BANNER_SHIFT = 12; // px to shift on each CLS trigger (enough to be noticeable, not too disruptive)
 let CLSInteractionCount = 1;
 
 export default function App() {
@@ -105,7 +107,7 @@ export default function App() {
           >
             Slow INP{' '}
             <span style={{ color: '#94a3b8', fontWeight: 400 }}>
-              (300ms block)
+              ({INPInteractionCount * INP_TIME}ms block)
             </span>
           </button>
           <button
@@ -116,7 +118,7 @@ export default function App() {
           >
             Trigger CLS{' '}
             <span style={{ color: '#94a3b8', fontWeight: 400 }}>
-              (layout shift)
+              (layout shift {CLSInteractionCount * CLS_BANNER_SHIFT}px)
             </span>
           </button>
         </div>
