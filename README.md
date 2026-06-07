@@ -207,7 +207,26 @@ where name = 'LCP'
   and created_at > now() - interval '7 days';
 ```
 
-## Core Web Vitals thresholds
+## Core Web Vitals
+
+### What each metric measures
+
+**LCP — Largest Contentful Paint**
+Marks when the largest visible element (hero image, heading, or block of text) finishes rendering. Represents perceived load speed from the user's point of view.
+
+**INP — Interaction to Next Paint**
+Measures the worst-case delay from any user interaction (click, tap, key press) to the next visual update. Replaced FID as the official responsiveness metric in March 2024.
+
+**CLS — Cumulative Layout Shift**
+Scores unexpected layout shifts during the page's lifetime. Each shift is weighted by the fraction of the viewport that moved. A CLS of 0 means nothing jumped around.
+
+**FCP — First Contentful Paint**
+Records when the browser renders the first bit of content from the DOM — text, image, SVG, or non-white canvas. Earlier than LCP; tells you how quickly something appears at all.
+
+**TTFB — Time to First Byte**
+Time between the browser sending the request and receiving the first byte of the response. Reflects server response time and network latency. Not a Core Web Vital but strongly influences all other metrics.
+
+### Thresholds
 
 | Metric | Good     | Needs improvement | Poor     |
 | ------ | -------- | ----------------- | -------- |
@@ -216,6 +235,8 @@ where name = 'LCP'
 | CLS    | ≤ 0.1    | ≤ 0.25            | > 0.25   |
 | FCP    | ≤ 1800ms | ≤ 3000ms          | > 3000ms |
 | TTFB   | ≤ 800ms  | ≤ 1800ms          | > 1800ms |
+
+Google uses the **75th percentile** across all page loads (split by mobile and desktop) to determine pass/fail for Search ranking signals.
 
 ## Development
 
