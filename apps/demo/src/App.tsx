@@ -29,7 +29,7 @@ export default function App() {
   const metrics = dedup(allMetrics);
   const [clsBanner, setClsBanner] = useState(false);
 
-  const disabled = allMetrics.length >= 10;
+  const disabled = allMetrics.length >= 15; // avoid excessive metric spam from triggers
 
   function triggerCLS() {
     setClsBanner(true);
