@@ -1,0 +1,5 @@
+{
+  "buildCommand": "pnpm --filter @rum-omo/demo... build",
+  "outputDirectory": "dist",
+  "installCommand": "pnpm install"
+}
