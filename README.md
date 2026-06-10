@@ -242,12 +242,39 @@ Time between the browser sending the request and receiving the first byte of the
 
 Google uses the **75th percentile** across all page loads (split by mobile and desktop) to determine pass/fail for Search ranking signals.
 
+## Monorepo structure
+
+The repo is a pnpm workspace with a strict one-way dependency graph:
+
+```
+@rum-omo/core          (zero runtime deps — only web-vitals)
+      ↓
+@rum-omo/react         (workspace:* dep on core, React as peerDep)
+      ↓
+@rum-omo/demo          (private Vite app, consumes both)
+```
+
+| Concern              | Tool                                                 |
+| -------------------- | ---------------------------------------------------- |
+| Workspace / symlinks | pnpm workspaces (`pnpm-workspace.yaml`)              |
+| Library builds       | tsup — dual ESM + CJS, `.d.ts`, tree-shaking         |
+| Demo app build       | Vite                                                 |
+| TypeScript           | shared `tsconfig.base.json`, each package extends it |
+| Lint + format        | single Biome config at the root                      |
+
+**Key decisions:**
+
+- `workspace:*` in `@rum-omo/react` means development always consumes the live local `core` source, not a published tarball.
+- React is a `peerDependency` in `@rum-omo/react` and marked `external` in its tsup config — the consuming app provides React, so it is never bundled twice.
+- The demo uses `tsc -b && vite build` rather than tsup because Vite owns browser bundling; tsup is only for the publishable libraries.
+- No Turborepo or Nx —> pnpm's `-r` (recursive) flag is sufficient for a two-library workspace where build times are negligible.
+
 ## Development
 
 ```bash
 pnpm install
 pnpm build       # build both packages
-pnpm dev         # watch mode (It's a monorepo runs all packages: core and react) -> but only watches and rebuilds with tsup.
-pnpm dev:demo        # watch mode of the demo app (react and plain vanilla) -> should run on Vite default port (5173)
+pnpm dev         # watch mode for all packages (tsup --watch) -> but only watches and rebuilds with tsup
+pnpm dev:demo    # start the demo app (react and plain vanilla) on Vite default port (5173)
 pnpm typecheck   # type-check without emitting
 ```
