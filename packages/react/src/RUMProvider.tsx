@@ -1,7 +1,7 @@
 import type { RUMConfig, RUMInstance, RUMMetric } from '@rum-omo/core';
 import { createRUM } from '@rum-omo/core';
 import type React from 'react';
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 interface RUMContextValue {
   metrics: RUMMetric[];
@@ -20,25 +20,25 @@ interface RUMProviderProps {
 
 export function RUMProvider({ config, children }: RUMProviderProps) {
   const [metrics, setMetrics] = useState<RUMMetric[]>([]);
-  const instanceRef = useRef<RUMInstance | null>(null);
+  const [instance, setInstance] = useState<RUMInstance | null>(null);
 
   useEffect(() => {
-    const instance = createRUM({
+    const inst = createRUM({
       ...config,
       plugins: [
         ...(config.plugins ?? []),
         (metric) => setMetrics((prev) => [...prev, metric]),
       ],
     });
-    instanceRef.current = instance;
-    instance.start();
-    return () => instance.stop();
+    setInstance(inst);
+    inst.start();
+    return () => inst.stop();
     // config is intentionally read once at mount — changes after mount are ignored
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <RUMContext.Provider value={{ metrics, instance: instanceRef.current }}>
+    <RUMContext.Provider value={{ metrics, instance }}>
       {children}
     </RUMContext.Provider>
   );
