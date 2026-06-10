@@ -2,6 +2,10 @@
 
 Real User Monitoring for the browser. Captures Core Web Vitals (LCP, INP, CLS, FCP, TTFB) from real users and ships them wherever you need — your own endpoint, localStorage, or the console.
 
+## Live demo
+
+You can see a live demo vanilla: (zero runtime dependencies, framework-agnostic) and React: (Provider + hook adapter) **[here!](https://rum-omo-demo.vercel.app/)**
+
 ## Packages
 
 | Package                              | Description                                    |
@@ -173,7 +177,7 @@ The `--no-verify-jwt` flag is required — the endpoint is public by design (bro
 
 ```ts
 const rum = createRUM({
-  endpoint: 'https://<your-project-ref>.supabase.co/functions/v1/vitals',
+  endpoint: "https://<your-project-ref>.supabase.co/functions/v1/vitals",
 });
 rum.start();
 ```
